@@ -3,6 +3,7 @@ package personnage
 import src.item.*
 
 
+
 class Personnage(
     val nom: String,
     var pointDeVie: Int,
@@ -27,15 +28,15 @@ class Personnage(
 
      fun boirePotion():Unit{
 
-         var soinAjouter =  0
-         var firstPotion : Item
-             //Le personnage récupère la première potion de la liste (s'il y en a)
-         if ( avoirPotion() ){
-             firstPotion = inventaire.filter{it -> it is Potion}[0]//filtre la liste pour avoir que les item de type potion puis preds la première de la liste
-            if(firstPotion is Potion) {
-                pointDeVie += firstPotion.soin // Le personnage récupère le montant de soin de la potion.
-                inventaire.remove(firstPotion)// Le personnage retire la potion de son inventaire.
-            }
+         var firstPotion :Potion = Potion()
+         var listePotion: MutableList<Potion> = mutableListOf<Potion>()
+         inventaire.forEach{if( it is Potion ) listePotion.add(it)} //filtre la liste pour avoir que les items de type potion
+
+         if ( avoirPotion() ) { //Le personnage récupère la première potion de la liste (s'il y en a)
+             firstPotion = listePotion[0] // prends la première de la liste
+             pointDeVie += firstPotion.soin // Le personnage récupère le montant de soin de la potion.
+             inventaire.remove(firstPotion) // Le personnage retire la potion de son inventaire.
+
          }
          println("La potion ${firstPotion.nom} t'a permis de récupérer ${firstPotion.soin} \n" +
          "pv actuel pour ${this.nom}: ${this.pointDeVie} ")
@@ -49,8 +50,8 @@ class Personnage(
 
 
      fun calculeTotalDefense():Int{
-         if(this.armureEquipe){
-             return this.defense / 2 + this.armureEquipe.calculProtection()
+         if(this.armureEquipe != null){
+             return this.defense / 2 + this.armureEquipe!!.calculProtection()
          } else {
              return this.defense / 2
          }
@@ -66,8 +67,8 @@ class Personnage(
          if (adversaire.pointDeVie <= 0) println("L'adversaire à perdu le combat")// verifier que les degats ne soit pas negatif
 
          // vérifie si l'arme est équipée
-         if (armeEquipe){
-             degat += arme.calculerDegats()// utilise la fonction pour calculer les degats de l'arme
+         if (armeEquipe != null){
+             degats += armeEquipe!!.calculerDegats((0..10).random(),(0..10).random())// utilise la fonction pour calculer les degats de l'arme
          }
          if (adversaire.defense <=1){//Les dégâts sont ajustés en fonction de la défense de l'adversaire.
              adversaire.pointDeVie -= degats
@@ -107,8 +108,8 @@ class Personnage(
         inventaire.forEach{println("${inventaire.indexOf(it)} : $it")}
     }
 
-    fun loot(cible: Personne){
-        if(cible <= 0){//On vérifie que la cible a des pv inférieure ou égale à 0.
+    fun loot(cible: Personnage){
+        if(cible.pointDeVie <= 0){//On vérifie que la cible a des pv inférieure ou égale à 0.
             armeEquipe = null
             armureEquipe = null
 

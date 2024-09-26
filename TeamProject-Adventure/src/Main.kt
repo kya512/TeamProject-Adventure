@@ -26,14 +26,18 @@ fun main(args: Array<String>) {
         endurance = 6)
 
     // TODO Intermission 1 : Ajouter d'autres monstres
+   var listeDeMonstre : MutableList<Personnage> = mutableListOf<Personnage>(
+       Personnage("Ame en peine", 30 , 67 ,10, 12, 14, 0),
+    Personnage("Armure animée", 20 , 33 ,8, 15, 8, 6),
+    Personnage("Ettin", 44 , 88 ,16, 12, 14, 8),
+    Personnage("Elementaire du feu", 51 , 102 ,12, 10, 8, 16),
+    Personnage("Flagelleyr mental", 35 , 71 ,15, 7, 10, 12),
+    Personnage("Gelée ocre", 22 , 45 ,9, 14, 7, 10)
+   )
 
-
-
-
-    
 
     //TODO On ajoute les monstres a la liste de monstres du jeu
-    val jeu = Jeu(listOf( gobelin))
+    val jeu = Jeu(listeDeMonstre)
     //Lancement du jeu
     jeu.lancerCombat()
 }

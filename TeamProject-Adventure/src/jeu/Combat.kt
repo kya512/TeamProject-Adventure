@@ -22,9 +22,9 @@ class Combat(
 
         var action = readln().toInt()
          when (action){
-            1 -> print("${joueur.nom}  ${joueur.attaque} ${this.monstre.nom} et perd ${monstre.pointDeVie}")
-             2 -> print("${joueur.nom} bois une potion")
-            else -> print("${joueur.nom} passe son tour")
+            1 -> println("${joueur.nom} attaque ${joueur.attaque} ${this.monstre.nom} et perd ${monstre.pointDeVie}pv")
+             2 -> println("${joueur.nom} bois une potion")
+            else -> println("${joueur.nom} passe son tour")
         }
         this.jeu.joueur.attaque(monstre)
         println("\u001b[0m")
